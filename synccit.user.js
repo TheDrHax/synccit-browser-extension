@@ -24,7 +24,7 @@ var api = localStorage['api'];
 
 //console.log(username + ' '+ auth + ' ' + api);
 
-var devname = "synccit.user.js,v1.11";
+var devname = "synccit-firefox,v1.11";
 
 // add addStyle if doesn't exist
 // if doesn't have xmlHttpRequest, that's a whole other issue
