@@ -34,7 +34,6 @@ var devname = "synccit.user.js,v1.10";
 //}
 
 
-
 if(localStorage['synccit-link'] == "undefined" || localStorage['synccit-link'] == undefined ) {
 	localStorage['synccit-link'] = "";
 }
@@ -161,22 +160,14 @@ else {
 
 	var datastring = "username=" + username + "&auth=" + auth + "&dev=" + devname + "&mode=read" + "&links=" + array.toString();
 
-
 	// download visited links
 	// this is using the regular mode, not json
 	// didn't have json implemented yet server side
-	GM_xmlhttpRequest({
-	  method: "POST",
-	  url: api,
-	  data: datastring,
-	  headers: {
-	    "Content-Type": "application/x-www-form-urlencoded"
-	  },
-	  onload: function(response) {
-		parseLinks(response.responseText);
-
-	  }
-	});
+	var oReq = new XMLHttpRequest();
+	oReq.addEventListener("load", function () { parseLinks(this.responseText); });
+	oReq.open("POST", api, true);
+	oReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	oReq.send(datastring);
 
 }
 
@@ -411,16 +402,9 @@ function addSelf(link, count) {
 function clickedLink(link) {
 	var datastring = "username=" + username + "&auth=" + auth + "&dev=" + devname + "&mode=update" + "&links=" + link;
 	//console.log(datastring);
-	GM_xmlhttpRequest({
-	  method: "POST",
-	  url: api,
-	  data: datastring,
-	  headers: {
-	    "Content-Type": "application/x-www-form-urlencoded"
-	  },
-	  onload: function(response) {
-		
-		console.log(response.responseText);
+	var oReq = new XMLHttpRequest();
+	oReq.addEventListener("load", function() {
+		console.log(this.responseText);
 		var array = localStorage['synccit-link'].split(',');
 		if(array.length < 2) {
 			localStorage['synccit-link'] = "";
@@ -434,26 +418,19 @@ function clickedLink(link) {
 		}
 		return true;
 
-	  }
 	});
-
-	
+	oReq.open("POST", api, true);
+	oReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	oReq.send(datastring);
 
 }
 
 function clickedComment(link, count) {
 	var datastring = "username=" + username + "&auth=" + auth + "&dev=" + devname + "&mode=update" + "&comments=" + link + ":" + count;
 
-	GM_xmlhttpRequest({
-	  method: "POST",
-	  url: api,
-	  data: datastring,
-	  headers: {
-	    "Content-Type": "application/x-www-form-urlencoded"
-	  },
-	  onload: function(response) {
-		
-		console.log(response.responseText);
+	var oReq = new XMLHttpRequest();
+	oReq.addEventListener("load", function() {
+		console.log(this.responseText);
 		var array = localStorage['synccit-comment'].split(',');
 
 		if(array.length < 2) {
@@ -469,24 +446,20 @@ function clickedComment(link, count) {
 		}
 		return true;
 
-	  }
-	});
+	 });
+	oReq.open("POST", api, true);
+	oReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	oReq.send(datastring);
 
 }
 
 function clickedSelf(link, count) {
 	var datastring = "username=" + username + "&auth=" + auth + "&dev=" + devname + "&mode=update" + "&links=" + link + "&comments=" + link + ":" + count;
 
-	GM_xmlhttpRequest({
-	  method: "POST",
-	  url: api,
-	  data: datastring,
-	  headers: {
-	    "Content-Type": "application/x-www-form-urlencoded"
-	  },
-	  onload: function(response) {
+	var oReq = new XMLHttpRequest();
+	oReq.addEventListener("load", function() {
 		
-		console.log(response.responseText);
+		console.log(this.responseText);
 		var array = localStorage['synccit-self'].split(',');
 		if(array.length < 2) {
 			localStorage['synccit-self'] = "";
@@ -500,9 +473,11 @@ function clickedSelf(link, count) {
 			localStorage['synccit-self'] = array.toString();
 		}
 		return true;
-
-	  }
 	});
+	oReq.open("POST", api, true);
+	oReq.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	oReq.send(datastring);
+
 }
 
 function addShowPage() {
