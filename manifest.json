@@ -2,15 +2,13 @@
     "manifest_version": 2,
     "content_scripts": [ {
         "exclude_globs":    [  ],
-        "include_globs":    [ "*" ],
+        "include_globs":    [ "*://reddit.com/*", "*://*.reddit.com/*" ],
         "js":               [ 	
 								"synccit.user.js"
  								
 							],
-        "matches":          [   "http://*.reddit.com/*",
-								"http://reddit.com/*",
-                                "https://*.reddit.com/*",
-                                "https://reddit.com/*"
+        "matches":          [   "*://*.reddit.com/*",
+								"*://reddit.com/*"
                             ],
         "run_at": "document_end"
     } ],
@@ -24,7 +22,10 @@
     "name":         "synccit for reddit",
     "version":      "12",
     "short_name":   "synccit",
-	"permissions":	[	"<all_urls>"
+	"permissions":	[	
+		"*://reddit.com/*",
+		"*://*.reddit.com/*",
+		"*://*.synccit.com/*"
 						
 		]
 }
